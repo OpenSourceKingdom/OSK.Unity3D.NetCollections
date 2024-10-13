@@ -17,7 +17,7 @@ jobs:
       - name: Setup Unity
         uses: game-ci/unity-test-runner@v2
         with:
-          unityVersion: 2022.3.8f1 # Set your Unity version
+          unityVersion: 2022.3.3.1.0 # Set your Unity version
 
       - name: Run Unity Tests
         uses: game-ci/unity-test-runner@v2
