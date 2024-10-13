@@ -1,0 +1,7 @@
+{
+	"name": "com.opensourcekingdom.netcollections",
+	"displayName": "NetCollections",
+	"version": "0.0.1",
+	"description": "Dependency Injection Framework for Unity3D backed by .NET Service Collections",
+	"dependencies": {}
+}

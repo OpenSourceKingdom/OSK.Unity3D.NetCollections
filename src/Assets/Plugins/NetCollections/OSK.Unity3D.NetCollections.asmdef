@@ -1,0 +1,14 @@
+{
+    "name": "OSK.Unity3D.NetCollections",
+    "rootNamespace": "OSK.Unity3D.NetCollections",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
