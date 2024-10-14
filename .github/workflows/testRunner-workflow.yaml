@@ -1,32 +1,60 @@
-name: Run Unity Tests
+#This workflow is derived from documentation and resources located: https://game.ci/docs/
+name: Build project
 
-on:
-  push:
-    branches: [ main ]
+on:  
   pull_request:
-    branches: [ main ]
+  push:
+    tags:
+      - '*'
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+  UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  buildForWindowsBasedPlatforms:
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        projectPath:
+          - src
+        unityVersion:
+          - 2022.3.50f1
+        targetPlatform:
+          - StandaloneWindows # Build a Windows 32-bit standalone.
+#          - StandaloneWindows64 # Build a Windows 64-bit standalone.
+#          - tvOS # Build an AppleTV player.
+#          - WSAPlayer # Build a UWP App.
 
+    env:
+      NUGET_CERT_REVOCATION_MODE: offline
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Unity
-        uses: game-ci/unity-test-runner@v2
+      - uses: actions/checkout@v2
         with:
-          unityVersion: 2022.3.3.1.0 # Set your Unity version
-
-      - name: Run Unity Tests
-        uses: game-ci/unity-test-runner@v2
+          fetch-depth: 0
+          lfs: true
+      - uses: actions/cache@v2
         with:
-          testMode: playmode
-          testResults: test-results.xml
-
-      - name: Upload Test Results
-        uses: actions/upload-artifact@v4.4.3
+          path: ${{ matrix.projectPath }}/Library
+          key:
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-${{
+            hashFiles(matrix.projectPath) }}
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-
+            Library-${{ matrix.projectPath }}-
+            Library-
+      - uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          name: test-results
-          path: test-results.xml
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+      - uses: actions/upload-artifact@v4.4.3
+        with:
+          name: Build-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
