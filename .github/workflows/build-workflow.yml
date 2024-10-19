@@ -1,0 +1,49 @@
+name: Unity Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+   
+    strategy:
+      matrix:
+        targetPlatform: [Android, iOS, Windows] # Platforms to build for
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Unity setup
+      - name: Set up Unity
+        uses: game-ci/unity-builder@v2
+        with:
+          unityVersion: 2022.3.29f1 # Replace with your Unity version
+          targetPlatform: ${{ matrix.targetPlatform }}
+
+      # Set build version
+      - name: Set Build Version
+        run: echo "Setting build version to ${{ github.run_number }}"
+        env:
+          BUILD_VERSION: ${{ github.run_number }}
+
+      # Build the project
+      - name: Build project
+        uses: game-ci/unity-builder@v2
+        with:
+          unityVersion: 2022.3.29f1 # Ensure the same Unity version is used
+          targetPlatform: ${{ matrix.targetPlatform }}
+          buildVersion: ${{ env.BUILD_VERSION }} # Passing the build version
+
+      # Upload artifacts to GitHub Actions
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.targetPlatform }}-build
+          path: build/${{ matrix.targetPlatform }} # Assuming your build output is in a "build" folder

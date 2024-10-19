@@ -1,14 +1,14 @@
 # Modified from:
 #     https://github.com/github/gitignore/blob/master/Unity.gitignore
 
-/[Ll]ibrary/
-/[Uu]serSettings/
-[Tt]emp/
-[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Mm]emoryCaptures/
+src/[Ll]ibrary/
+src/[Uu]serSettings/
+src/[Tt]emp/
+src/[Oo]bj/
+src/[Bb]uild/
+src/[Bb]uilds/
+src/[Ll]ogs/
+src/[Mm]emoryCaptures/
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # [Aa]ssets/AssetStoreTools*
