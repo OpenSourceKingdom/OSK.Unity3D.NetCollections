@@ -14,6 +14,10 @@ jobs:
    
     strategy:
       matrix:
+        projectPath:
+          - src
+        unityVersion:
+          - 2022.3.29f1
         targetPlatform: [Android, iOS, Windows] # Platforms to build for
 
     steps:
@@ -34,9 +38,8 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          projectPath: "/src"
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          unityVersion: 2022.3.29f1 # Ensure the same Unity version is used
+          projectPath: ${{ matrix.projectPath }}
           targetPlatform: ${{ matrix.targetPlatform }}
           buildVersion: ${{ env.BUILD_VERSION }} # Passing the build version
 
