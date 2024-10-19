@@ -36,7 +36,13 @@ jobs:
       # Build the project
       - name: Build project
         uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
+          projectPath: "/src"
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
           unityVersion: 2022.3.29f1 # Ensure the same Unity version is used
           targetPlatform: ${{ matrix.targetPlatform }}
           buildVersion: ${{ env.BUILD_VERSION }} # Passing the build version
