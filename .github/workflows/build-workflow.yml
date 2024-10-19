@@ -9,16 +9,20 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-   
+  build:   
     strategy:
       matrix:
         projectPath:
           - src
         unityVersion:
           - 2022.3.29f1
-        targetPlatform: [Android, iOS, Windows] # Platforms to build for
+        buildTargets: [
+          { unityPlatform: Android, os: ubuntu-22.04 }, 
+          { unityPlatform: iOS, ods: macOS-12 }, 
+          { unityPlatform: Windows, os: windows-2022 }
+        ]
+
+    runs-on: ${{ matrix.os.buildTargets.os }}
 
     steps:
       - name: Checkout repository
@@ -40,7 +44,7 @@ jobs:
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           projectPath: ${{ matrix.projectPath }}
-          targetPlatform: ${{ matrix.targetPlatform }}
+          targetPlatform: ${{ matrix.buildTargets.unityPlatform }}
           buildVersion: ${{ env.BUILD_VERSION }} # Passing the build version
 
       # Upload artifacts to GitHub Actions
