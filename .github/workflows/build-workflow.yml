@@ -20,13 +20,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Unity setup
-      - name: Set up Unity
-        uses: game-ci/unity-builder@v2
-        with:
-          unityVersion: 2022.3.29f1 # Replace with your Unity version
-          targetPlatform: ${{ matrix.targetPlatform }}
-
       # Set build version
       - name: Set Build Version
         run: echo "Setting build version to ${{ github.run_number }}"
