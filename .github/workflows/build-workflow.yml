@@ -18,11 +18,11 @@ jobs:
           - 2022.3.29f1
         buildTargets: [
           { unityPlatform: Android, os: ubuntu-22.04 }, 
-          { unityPlatform: iOS, ods: macOS-12 }, 
+          { unityPlatform: iOS, os: macOS-12 }, 
           { unityPlatform: Windows, os: windows-2022 }
         ]
 
-    runs-on: ${{ matrix.os.buildTargets.os }}
+    runs-on: ${{ matrix.buildTargets.os }}
 
     steps:
       - name: Checkout repository
