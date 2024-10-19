@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:   
     strategy:
@@ -19,7 +23,7 @@ jobs:
         buildTargets: [
           { unityPlatform: Android, os: ubuntu-22.04 }, 
           { unityPlatform: iOS, os: macOS-12 }, 
-          { unityPlatform: Windows, os: windows-2022 }
+          { unityPlatform: StandaloneWindows, os: windows-2022 }
         ]
 
     runs-on: ${{ matrix.buildTargets.os }}
