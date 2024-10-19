@@ -1,5 +1,5 @@
 #This workflow is derived from documentation and resources located: https://game.ci/docs/
-name: Build project
+name: Run Unity Tests
 
 on:  
   pull_request:
