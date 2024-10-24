@@ -1,0 +1,59 @@
+name: Unity Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:   
+    strategy:
+      matrix:
+        projectPath:
+          - src
+        unityVersion:
+          - 2022.3.29f1
+        buildTargets: [
+          { unityPlatform: Android, os: ubuntu-22.04 }, 
+          { unityPlatform: iOS, os: macOS-12 }, 
+          { unityPlatform: StandaloneWindows, os: windows-2022 }
+        ]
+
+    runs-on: ${{ matrix.buildTargets.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set build version
+      - name: Set Build Version
+        run: echo "Setting build version to ${{ github.run_number }}"
+        env:
+          BUILD_VERSION: ${{ github.run_number }}
+
+      # Build the project
+      - name: Build project
+        uses: game-ci/unity-builder@v4.3.0
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          projectPath: ${{ matrix.projectPath }}
+          targetPlatform: ${{ matrix.buildTargets.unityPlatform }}
+          buildVersion: ${{ env.BUILD_VERSION }}
+
+      # Upload artifacts to GitHub Actions
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: ${{ matrix.buildTargets.unityPlatform }}v${{ env.BUILD_VERSION }}-build
+          path: build/${{ matrix.buildTargets.unityPlatform }}
