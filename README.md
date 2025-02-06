@@ -3,7 +3,7 @@ This project is meant to serve as a simple to use container system that is entir
 
 # Add Package to Unity3D:
 Using the Unity Package Manager, select add by Git url and use the following Url:
-`https://github.com/OpenSourceKingdom/OSK.Unity3D.NetCollections.git?path=src/Assets/Plugins/NetCollections`
+`https://github.com/OpenSourceKingdom/OSK.Unity3D.NetCollections.git?path=/src/Assets/Plugins/NetCollections`
 
 # Contributions and Issues
 Any and all contributions are appreciated! Please.3 be sure to follow the branch naming convention OSK-{issue number}-{deliminated}-{branch}-{name} as current workflows rely on it for automatic issue closure. Please submit issues for discussion and tracking using the github issue tracker. Feel free to create issues to discuss adding more nuanced specificity or other result codes.
