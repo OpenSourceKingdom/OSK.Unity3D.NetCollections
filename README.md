@@ -1,5 +1,10 @@
 # OSK.Unity3D.NetCollections
+
 This project is meant to serve as a simple to use container system that is entirely based upon the standard .NET service collection extensions. Using this as the basis for the DI system will allow for any packages within the .NET ecosystem to be integrated into a game application. Nuget packages can be added to a project using a mechanism such as [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity)
+
+## Depracation Notice
+
+OSK is moving game framework related logic and updates into the Petra ecosystem. As of now, this library remains up for posterity but future updates will be made to a Unity specific implementation within Petra.
 
 # Add Package to Unity3D:
 Using the Unity Package Manager, select add by Git url and use the following Url:
